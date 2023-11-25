@@ -12,17 +12,16 @@ function getClient() {
   });
 }
 
-async function getDatabase() {
+async function getExpensiveData() {
   const notion = getClient()
   return await notion.databases.query({
     database_id: process.env.DATABASE_ID,
   })
 }
 
-async function writeData(path) {
+async function writeData(path, jsonData) {
   try {
-    const db = await getDatabase();
-    fs.writeFileSync(path, JSON.stringify(db));
+    fs.writeFileSync(path, JSON.stringify(jsonData));
   } catch (error) {
     console.log(error);
   }
@@ -39,9 +38,11 @@ function readData(path) {
 
 async function getExpenseData() {
   try {
-    await writeData(PATH);
-    const data = readData(PATH);
-    return mapperRespone(data);
+    const expensiveData = await getExpensiveData();
+    const response = expensiveData;
+    const mappedData = mapperRespone(response);
+    await writeData(PATH, mappedData);
+    return readData(PATH);
   } catch (error) {
     if (error.code === APIErrorCode.ObjectNotFound) {
       //
