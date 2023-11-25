@@ -1,14 +1,25 @@
-require('dotenv').config()
+const express = require('express');
+const app = express();
+const bodyParser = require('body-parser');
+const cors = require('cors');
 
-const { getPriceByRangeDateUseCase } = require('./src/use_cases/getPriceByRangeDates');
-const { test } = require('./tests/test');
+const config = require('./config');
 
-async function app() {
-    const startDate = new Date('2023-11-25');
-    const endDate = new Date('2023-11-30');
-    const pricesByRageDates = await getPriceByRangeDateUseCase(startDate, endDate);
-    console.log(pricesByRageDates);
+const notionRouter = require('./src/routes/notion.router');
+
+app.use(cors())
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+
+app.use('/api/notion', notionRouter);
+
+
+let server = app.listen(config.port, () => {
+    console.log(`Escuchando en el puerto ${config.port}`);
+})
+
+module.exports = {
+    app,
+    server
 }
-
-
-app();

@@ -1,10 +1,13 @@
 {
-  "name": "notion-api-test",
-  "version": "1.0.0",
+  "name": "notion-api",
+  "version": "2.0.0",
   "description": "Prueba para coectar con una base de datos de notion",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start:dev": "kill -9 $(lsof -t -i:3000); nodemon app.js",
+    "start:prod": "kill -9 $(lsof -t -i:3000); export NODE_ENV=prod; nodemon app.js",
+    "start:debug": "kill -9 $(lsof -t -i:3000); kill -9 $(lsof -t -i:9229); nodemon --inspect app.js",
+    "test": "kill -9 $(lsof -t -i:3000); export NODE_ENV=test; jest --runInBand --coverage"
   },
   "keywords": [
     "notion"
@@ -13,6 +16,13 @@
   "license": "ISC",
   "dependencies": {
     "@notionhq/client": "^2.2.13",
-    "dotenv": "^16.3.1"
+    "dotenv": "^16.3.1",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "underscore": "^1.13.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
   }
 }

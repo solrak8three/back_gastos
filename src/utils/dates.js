@@ -1,7 +1,9 @@
 function filtereByRangeDates(records, startDate, endDate) {
+  const _startDate = new Date(startDate)
+  const _endDate = new Date(endDate)
   return records.filter(record => {
     const recordDate = new Date(record.date);
-    return recordDate >= startDate && recordDate <= endDate;
+    return recordDate >= _startDate && recordDate <= _endDate;
   })
 }
 
