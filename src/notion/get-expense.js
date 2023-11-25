@@ -1,6 +1,6 @@
 const fs = require('fs');
 const { Client, APIErrorCode } = require("@notionhq/client");
-const { mapperRespone } = require('./utils/mapper-response');
+const { mapperRespone } = require('../utils/mapper-response');
 
 const PATH_TEST = "data/test.json";
 const PATH = "data/data.json";

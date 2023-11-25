@@ -1,5 +1,5 @@
 const fs = require('fs');
-const { mapperRespone } = require('../src/notion/helpers/mapper-response');
+const { mapperRespone } = require('../src/utils/mapper-response');
 
 const PATH = "data/test.json";
 
