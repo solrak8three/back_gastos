@@ -14,7 +14,7 @@ function getClient() {
 async function getExpensiveData() {
   const notion = getClient()
   return await notion.databases.query({
-    database_id: process.env.TEST_GASTOS_DIARIOS_DB,//Para desarrollar lo pongo en TEST
+    database_id: process.env.GASTOS_DIARIOS_DB,//Para desarrollar lo pongo en TEST
   })
 }
 
