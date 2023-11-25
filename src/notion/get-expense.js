@@ -1,9 +1,8 @@
 const fs = require('fs');
 const { Client, APIErrorCode } = require("@notionhq/client");
-const { mapperRespone } = require('./helpers/mapper-response');
+const { mapperRespone } = require('./utils/mapper-response');
 
 const PATH_TEST = "data/test.json";
-
 const PATH = "data/data.json";
 
 function getClient() {
@@ -15,7 +14,7 @@ function getClient() {
 async function getExpensiveData() {
   const notion = getClient()
   return await notion.databases.query({
-    database_id: process.env.DATABASE_ID,
+    database_id: process.env.TEST_GASTOS_DIARIOS_DB,//Para desarrollar lo pongo en TEST
   })
 }
 
