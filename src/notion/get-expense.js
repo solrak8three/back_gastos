@@ -36,13 +36,16 @@ function readData(path) {
   }
 }
 
-async function getExpenseData() {
+async function getExpenseData(record = false) {
   try {
     const expensiveData = await getExpensiveData();
     const response = expensiveData;
     const mappedData = mapperRespone(response);
-    await writeData(PATH, mappedData);
-    return readData(PATH);
+    if (record) {
+      await writeData(PATH, mappedData);
+      return readData(PATH);
+    }
+    return mappedData;
   } catch (error) {
     if (error.code === APIErrorCode.ObjectNotFound) {
       //
