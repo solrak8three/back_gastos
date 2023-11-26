@@ -1,4 +1,4 @@
-function filtereByRangeDates(records, startDate, endDate) {
+function filterByRangeDates(records, startDate, endDate) {
   const _startDate = new Date(startDate)
   const _endDate = new Date(endDate)
   return records.filter(record => {
@@ -8,5 +8,5 @@ function filtereByRangeDates(records, startDate, endDate) {
 }
 
 module.exports = {
-  filtereByRangeDates
+  filterByRangeDates
 };

@@ -17,6 +17,7 @@ switch (environment) {
 }
 
 console.log({
+  environment,
   ...baseConfig,
   ...environmentConfig
 });

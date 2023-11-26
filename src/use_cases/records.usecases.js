@@ -1,16 +1,12 @@
-const { filtereByRangeDates } = require("../utils/dates");
-const { getExpenseData } = require("../notion/get-expense");
+const { filterByRangeDates } = require("../utils/dates");
+const { getRecords } = require("../notion/get-records");
 
-async function getByRangeDateUseCase(startDate, endDate) {
-  const records = await getExpenseData();
-  return filtereByRangeDates(records, startDate, endDate);
-}
-
-async function getAllUseCase() {
-  return await getExpenseData();
+async function recordsFilteredUseCase(startDate, endDate, tags) {
+  const records = await getRecords();
+  if (!startDate || !endDate) return records;
+  return filterByRangeDates(records, startDate, endDate);
 }
 
 module.exports = {
-  getByRangeDateUseCase,
-  getAllUseCase
+  recordsFilteredUseCase,
 }

@@ -1,6 +1,7 @@
 const fs = require('fs');
 const { Client, APIErrorCode } = require("@notionhq/client");
 const { mapperRespone } = require('../utils/mapper-response');
+const { environment } = require('../../config');
 
 const PATH_TEST = "data/test.json";
 const PATH = "data/data.json";
@@ -11,10 +12,16 @@ function getClient() {
   });
 }
 
-async function getExpensiveData() {
+function getDatabaseId() {
+  return (environment === 'prod')
+    ? process.env.GASTOS_DIARIOS_DB
+    : process.env.TEST_GASTOS_DIARIOS_DB;
+}
+
+async function getDatabase() {
   const notion = getClient()
   return await notion.databases.query({
-    database_id: process.env.TEST_GASTOS_DIARIOS_DB,//Para desarrollar lo pongo en TEST
+    database_id: getDatabaseId(),
   })
 }
 
@@ -35,16 +42,15 @@ function readData(path) {
   }
 }
 
-async function getExpenseData(record = false) {
+async function getRecords(save = false) {
   try {
-    const expensiveData = await getExpensiveData();
-    const response = expensiveData;
-    const mappedData = mapperRespone(response);
-    if (record) {
-      await writeData(PATH, mappedData);
+    const response = await getDatabase();
+    const mappedResponse = mapperRespone(response);
+    if (save) {
+      await writeData(PATH, mappedResponse);
       return readData(PATH);
     }
-    return mappedData;
+    return mappedResponse;
   } catch (error) {
     if (error.code === APIErrorCode.ObjectNotFound) {
       //
@@ -58,5 +64,5 @@ async function getExpenseData(record = false) {
 
 
 module.exports = {
-  getExpenseData
+  getRecords
 }
