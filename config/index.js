@@ -3,7 +3,7 @@ const environment = process.env.NODE_ENV || 'dev';
 
 const baseConfig = {
   port: 3000,
-  support: 'deb8three@gmail.com',
+  notionToken: process.env.NOTION_TOKEN
 };
 
 let environmentConfig = {};
@@ -11,6 +11,9 @@ let environmentConfig = {};
 switch (environment) {
   case 'dev':
     environmentConfig = require('./dev');
+    break;
+  case 'prod':
+    environmentConfig = require('./prod')
     break;
   default:
     environmentConfig = require('./dev');

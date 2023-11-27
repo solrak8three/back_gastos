@@ -8,20 +8,15 @@ const PATH = "data/data.json";
 
 function getClient() {
   return new Client({
-    auth: process.env.NOTION_TOKEN,
+    auth: environment.notionToken,
   });
 }
 
-function getDatabaseId() {
-  return (environment === 'prod')
-    ? process.env.GASTOS_DIARIOS_DB
-    : process.env.TEST_GASTOS_DIARIOS_DB;
-}
-
 async function getDatabase() {
+  console.log(environment);
   const notion = getClient()
   return await notion.databases.query({
-    database_id: getDatabaseId(),
+    database_id: environment.notionDId,
   })
 }
 

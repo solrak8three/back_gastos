@@ -4,7 +4,7 @@
   "description": "Prueba para coectar con una base de datos de notion",
   "main": "app.js",
   "scripts": {
-    "start:dev": "kill -9 $(lsof -t -i:3000); nodemon app.js",
+    "start:dev": "kill -9 $(lsof -t -i:3000); export NODE_ENV=dev; nodemon app.js",
     "start:prod": "kill -9 $(lsof -t -i:3000); export NODE_ENV=prod; nodemon app.js",
     "start:debug": "kill -9 $(lsof -t -i:3000); kill -9 $(lsof -t -i:9229); nodemon --inspect app.js",
     "test": "kill -9 $(lsof -t -i:3000); export NODE_ENV=test; jest --runInBand --coverage"
