@@ -3,14 +3,13 @@ const { getRecords } = require("../notion/get-records");
 const { filterByTags } = require("../utils/filter-by-tags");
 
 async function recordsFilteredUseCase(startDate, endDate, tags) {
-  const records = await getRecords();
-  const recordsFiltered = filterByTags(records, tags);
-  return recordsFiltered;
+  let records = await getRecords();
+  if (startDate && endDate) {
+    records = [...filterByRangeDates(records, startDate, endDate)];
+  }
+  return [...filterByTags(records, tags)];
 }
-/*
-if (!startDate || !endDate) return filteredRecords;
-return filterByRangeDates(filteredRecords, startDate, endDate);
-*/
+
 module.exports = {
   recordsFilteredUseCase,
 }
