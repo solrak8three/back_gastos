@@ -1,22 +1,22 @@
 const fs = require('fs');
 const { Client, APIErrorCode } = require("@notionhq/client");
 const { mapperRespone } = require('../utils/mapper-response');
-const { environment } = require('../../config');
-
-const PATH_TEST = "data/test.json";
-const PATH = "data/data.json";
+const {
+  NOTION_TOKEN,
+  NOTION_DB_ID,
+  DATA_PATH
+} = require('../../config');
 
 function getClient() {
   return new Client({
-    auth: environment.notionToken,
+    auth: NOTION_TOKEN,
   });
 }
 
 async function getDatabase() {
-  console.log(environment);
   const notion = getClient()
   return await notion.databases.query({
-    database_id: environment.notionDId,
+    database_id: NOTION_DB_ID,
   })
 }
 
@@ -42,15 +42,14 @@ async function getRecords(save = false) {
     const response = await getDatabase();
     const mappedResponse = mapperRespone(response);
     if (save) {
-      await writeData(PATH, mappedResponse);
-      return readData(PATH);
+      await writeData(DATA_PATH, mappedResponse);
+      return readData(DATA_PATH);
     }
     return mappedResponse;
   } catch (error) {
-    if (error.code === APIErrorCode.ObjectNotFound) {
-      //
-      // For example: handle by asking the user to select a different database
-      //
+    if (error.code === APIErrorCode.ObjectNotFound) { }
+    if (error.code === APIErrorCode.Unauthorized) {
+      console.log('EL TOKEN DE AUTORIZACIÓN ES INVÁLIDO');
     } else {
       console.error(error)
     }
