@@ -5,6 +5,11 @@ function filterByTags(records, tags) {
   return records.filter(record => tags.includes(record.tag))
 }
 
+function filterByTagsOnlyFixed(records, tags) {
+  return records.filter(record => !tags.includes(record.tag))
+}
+
 module.exports = {
   filterByTags,
+  filterByTagsOnlyFixed,
 }
