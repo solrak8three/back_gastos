@@ -1,21 +1,17 @@
-const { filterByRangeDates } = require("../utils/dates");
 const { getRecords } = require("../notion/get-records");
 const { filterByTags, filterByTagsOnlyFixed } = require("../utils/filter-by-tags");
+const { filterByDates } = require("../utils/dates");
 
 async function recordsFilteredUseCase(startDate, endDate, tags) {
   let records = await getRecords();
-  if (startDate && endDate) {
-    records = [...filterByRangeDates(records, startDate, endDate)];
-  }
-  return [...filterByTags(records, tags)];
+  records = [...filterByTags(records, tags)];
+  return [...filterByDates(startDate, endDate, tags)]
 }
 
 async function recordsFilteredOnlyFixedUseCase(startDate, endDate, tags) {
   let records = await getRecords();
-  if (startDate && endDate) {
-    records = [...filterByRangeDates(records, startDate, endDate)];
-  }
-  return [...filterByTagsOnlyFixed(records, tags)];
+  records = [...filterByTagsOnlyFixed(records, tags)];
+  return [...filterByDates(startDate, endDate, tags)]
 }
 
 module.exports = {
