@@ -1,6 +1,11 @@
 const { recordsFilteredUseCase, recordsFilteredOnlyFixedUseCase } = require("../use_cases/records.usecases");
 const { calculatePrices } = require("../utils/calculate");
 
+
+async function test(req, res) {
+  res.status(200).json({ msg: 'ok' });
+}
+
 async function getRecords(req, res) {
   const { startDate, endDate, tags } = req.body;
   const notionRecords = await recordsFilteredUseCase(startDate, endDate, tags);
@@ -28,4 +33,5 @@ async function getRecordsWithoutFixes(req, res) {
 module.exports = {
   getRecords,
   getRecordsWithoutFixes,
+  test,
 };

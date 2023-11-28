@@ -5,6 +5,9 @@ const router = express.Router();
 
 const notionController = require('../controllers/notion.controller');
 
+router.route('/')
+    .get(notionController.test);
+
 router.route('/records')
     .post(notionController.getRecords);
 
