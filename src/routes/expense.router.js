@@ -8,6 +8,9 @@ const expenseController = require('../controllers/expense.controller');
 router.route('/test')
     .get(expenseController.test);
 
+router.route('/test2')
+    .get(expenseController.test2);
+
 router.route('/records')
     .post(expenseController.getRecords);
 
