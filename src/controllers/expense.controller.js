@@ -49,5 +49,4 @@ module.exports = {
   getRecords,
   getRecordsWithoutFixes,
   test,
-  test2,
 };
