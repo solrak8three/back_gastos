@@ -10,14 +10,6 @@ async function test(req, res) {
 }
 
 /**
- * Test para comprobar funcionalidad desde la web
- * @returns {void}
- */
-async function test2(req, res) {
-  res.status(200).json({ msg: 'test 2 ok' });
-}
-
-/**
  * Maneja la solicitud para obtener registros.
  * @param {string} startDate - Fecha de inicio para filtrar registros.
  * @param {string} endDate - Fecha de fin para filtrar registros.
