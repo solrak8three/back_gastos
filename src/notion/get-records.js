@@ -20,31 +20,27 @@ async function getDatabase() {
   })
 }
 
-async function writeData(path, jsonData) {
+async function writeData(jsonData) {
   try {
-    fs.writeFileSync(path, JSON.stringify(jsonData));
+    fs.writeFileSync(DATA_PATH, JSON.stringify(jsonData));
   } catch (error) {
     console.log(error);
   }
 }
 
-function readData(path) {
+function readJson() {
   try {
-    let data = fs.readFileSync(path);
+    let data = fs.readFileSync(DATA_PATH);
     return JSON.parse(data);
   } catch (error) {
     console.log(error);
   }
 }
 
-async function getRecords(save = false) {
+async function getRecords() {
   try {
     const response = await getDatabase();
     const mappedResponse = mapperRespone(response);
-    if (save) {
-      await writeData(DATA_PATH, mappedResponse);
-      return readData(DATA_PATH);
-    }
     return mappedResponse;
   } catch (error) {
     if (error.code === APIErrorCode.ObjectNotFound) { }
@@ -56,7 +52,25 @@ async function getRecords(save = false) {
   }
 }
 
+async function saveRecords() {
+  try {
+    const response = await getDatabase();
+    const mappedResponse = mapperRespone(response);
+    await writeData(mappedResponse);
+    return true;
+  } catch (error) {
+    if (error.code === APIErrorCode.ObjectNotFound) { }
+    if (error.code === APIErrorCode.Unauthorized) {
+      console.log('EL TOKEN DE AUTORIZACIÓN ES INVÁLIDO');
+    } else {
+      console.error(error)
+    }
+    return false;
+  }
+}
 
 module.exports = {
-  getRecords
+  getRecords,
+  saveRecords,
+  readJson,
 }

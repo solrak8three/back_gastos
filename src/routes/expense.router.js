@@ -9,10 +9,19 @@ const { validateRecord } = require('../middlewares/validation.middleware');
 router.route('/test')
     .get(expenseController.test);
 
-router.route('/records')
+router.route('/records/save')
+    .get(expenseController.saveToJson);
+
+router.route('/records/notion')
     .post(
         validateRecord,
-        expenseController.getRecords,
+        expenseController.getRecordsFromNotion,
+    );
+
+router.route('/records/json')
+    .post(
+        validateRecord,
+        expenseController.getRecordsFromJson,
     );
 
 

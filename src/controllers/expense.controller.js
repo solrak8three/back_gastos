@@ -1,5 +1,9 @@
 const { version } = require("../../config/env");
-const { recordsFilteredUseCase } = require("../use_cases/records.usecases");
+const {
+  recordsFilteredUseCase,
+  saveRecordsToJsonUseCase,
+  recordsFilteredFromJsonUseCase
+} = require("../use_cases/records.usecases");
 const { calculatePrices } = require("../utils/calculate");
 
 /**
@@ -11,7 +15,16 @@ async function test(req, res) {
 }
 
 /**
- * Maneja la solicitud para obtener registros.
+ * Guarda los datos de la base de datos de notion en un json.
+ * @returns {void}
+ */
+async function saveToJson(req, res) {
+  const saved = await saveRecordsToJsonUseCase();
+  res.status(200).json({ saved });
+}
+
+/**
+ * Maneja la solicitud para obtener registros de notion.
  * @param {string} startDate - Fecha de inicio para filtrar registros.
  * @param {string} endDate - Fecha de fin para filtrar registros.
  * @param {Array<string>} tags - Lista de etiquetas para filtrar registros.
@@ -19,7 +32,7 @@ async function test(req, res) {
  * @param {boolean} onlyFixed - Indica si solo se deben incluir registros fijos.
  * @returns {void}
  */
-async function getRecords(req, res) {
+async function getRecordsFromNotion(req, res) {
   const {
     startDate,
     endDate,
@@ -31,6 +44,35 @@ async function getRecords(req, res) {
   const notionRecords = await recordsFilteredUseCase(startDate, endDate, tags, removeFixed, onlyFixed);
   const price = calculatePrices(notionRecords);
   const response = {
+    origin: 'notion',
+    records: notionRecords,
+    total: price,
+  }
+  res.status(200).json(response);
+}
+
+/**
+ * Maneja la solicitud para obtener registros de un json.
+ * @param {string} startDate - Fecha de inicio para filtrar registros.
+ * @param {string} endDate - Fecha de fin para filtrar registros.
+ * @param {Array<string>} tags - Lista de etiquetas para filtrar registros.
+ * @param {boolean} removeFixed - Indica si se deben eliminar registros fijos.
+ * @param {boolean} onlyFixed - Indica si solo se deben incluir registros fijos.
+ * @returns {void}
+ */
+async function getRecordsFromJson(req, res) {
+  const {
+    startDate,
+    endDate,
+    tags,
+    removeFixed,
+    onlyFixed
+  } = req.validatedFields;
+
+  const notionRecords = await recordsFilteredFromJsonUseCase(startDate, endDate, tags, removeFixed, onlyFixed);
+  const price = calculatePrices(notionRecords);
+  const response = {
+    origin: 'json',
     records: notionRecords,
     total: price,
   }
@@ -38,6 +80,8 @@ async function getRecords(req, res) {
 }
 
 module.exports = {
-  getRecords,
+  getRecordsFromNotion,
+  getRecordsFromJson,
+  saveToJson,
   test,
 };
