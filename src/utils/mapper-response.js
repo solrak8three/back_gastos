@@ -1,19 +1,26 @@
+const { fixedPaymentsTags } = require("../../config/constants");
+
 function mapperRespone(data) {
   let result = [];
   for (let field of data.results) {
     if (!checkProperties(field.properties)) continue;
-    result.push(getPropertie(field.properties));
+    result.push(getProperty(field.properties));
   }
   return result;
 }
 
-function getPropertie(prop) {
+function getProperty(prop) {
   return {
     date: prop['Date'].date.start,
     text: prop['info'].rich_text[0].plain_text,
     price: prop['Price'].number,
     tag: prop['Tag'].select.name,
+    fixed: isFixed(prop['Tag'].select.name),
   }
+}
+
+function isFixed(tag) {
+  return fixedPaymentsTags.includes(tag);
 }
 
 function checkProperties(properties) {

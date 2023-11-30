@@ -1,15 +1,17 @@
-const { isArray } = require("underscore")
+function filterByTags(records, tags, removeFixed, onlyFixed) {
+  if (onlyFixed) {
+    return records.filter(record => record.fixed);
+  }
 
-function filterByTags(records, tags) {
-  if (!tags || !isArray(tags)) return records;
-  return records.filter(record => tags.includes(record.tag))
-}
+  if (removeFixed) {
+    return records.filter(record => !record.fixed);
+  }
 
-function filterByTagsOnlyFixed(records, tags) {
-  return records.filter(record => !tags.includes(record.tag))
+  if (tags.length === 0) return records;
+
+  return records.filter(record => tags.includes(record.tag));
 }
 
 module.exports = {
   filterByTags,
-  filterByTagsOnlyFixed,
 }

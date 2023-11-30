@@ -3,7 +3,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
-const config = require('./config');
+const config = require('./config/env');
 
 const expenseRouter = require('./src/routes/expense.router');
 

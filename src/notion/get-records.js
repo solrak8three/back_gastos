@@ -5,7 +5,7 @@ const {
   NOTION_TOKEN,
   NOTION_DB_ID,
   DATA_PATH
-} = require('../../config');
+} = require('../../config/env');
 
 function getClient() {
   return new Client({

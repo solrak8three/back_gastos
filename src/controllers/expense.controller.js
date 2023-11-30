@@ -1,4 +1,5 @@
-const { recordsFilteredUseCase, recordsFilteredOnlyFixedUseCase } = require("../use_cases/records.usecases");
+const { version } = require("../../config/env");
+const { recordsFilteredUseCase } = require("../use_cases/records.usecases");
 const { calculatePrices } = require("../utils/calculate");
 
 /**
@@ -6,7 +7,7 @@ const { calculatePrices } = require("../utils/calculate");
  * @returns {void}
  */
 async function test(req, res) {
-  res.status(200).json({ msg: 'ok' });
+  res.status(200).json({ version });
 }
 
 /**
@@ -14,29 +15,20 @@ async function test(req, res) {
  * @param {string} startDate - Fecha de inicio para filtrar registros.
  * @param {string} endDate - Fecha de fin para filtrar registros.
  * @param {Array<string>} tags - Lista de etiquetas para filtrar registros.
+ * @param {boolean} removeFixed - Indica si se deben eliminar registros fijos.
+ * @param {boolean} onlyFixed - Indica si solo se deben incluir registros fijos.
  * @returns {void}
  */
 async function getRecords(req, res) {
-  const { startDate, endDate, tags } = req.body;
-  const notionRecords = await recordsFilteredUseCase(startDate, endDate, tags);
-  const price = calculatePrices(notionRecords);
-  const response = {
-    records: notionRecords,
-    total: price,
-  }
-  res.status(200).json(response);
-}
+  const {
+    startDate,
+    endDate,
+    tags,
+    removeFixed,
+    onlyFixed
+  } = req.validatedFields;
 
-/**
- * Maneja la solicitud para obtener registros sin contar gastos fijos.
- * @param {string} startDate - Fecha de inicio para filtrar registros.
- * @param {string} endDate - Fecha de fin para filtrar registros.
- * @returns {void}
- */
-async function getRecordsWithoutFixes(req, res) {
-  const { startDate, endDate } = req.body;
-  const tagsFixes = ['gimnasio'];
-  const notionRecords = await recordsFilteredOnlyFixedUseCase(startDate, endDate, tagsFixes);
+  const notionRecords = await recordsFilteredUseCase(startDate, endDate, tags, removeFixed, onlyFixed);
   const price = calculatePrices(notionRecords);
   const response = {
     records: notionRecords,
@@ -47,6 +39,5 @@ async function getRecordsWithoutFixes(req, res) {
 
 module.exports = {
   getRecords,
-  getRecordsWithoutFixes,
   test,
 };

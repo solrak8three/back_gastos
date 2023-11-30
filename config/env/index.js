@@ -4,7 +4,7 @@ const environment = process.env.NODE_ENV || 'dev';
 const baseConfig = {
   port: 3000,
   NOTION_TOKEN: process.env.NOTION_TOKEN,
-  version: '1.0.1',
+  version: '1.0.2',
 };
 
 let environmentConfig = {};
