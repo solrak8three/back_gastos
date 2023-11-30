@@ -9,7 +9,8 @@ const fixedPaymentsTags = [
   'suscripcion',
   'prestamo',
   'garaje',
-  'pastillas'
+  'pastillas',
+  'baile',
 ];
 
 module.exports = {
