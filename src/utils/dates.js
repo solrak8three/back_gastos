@@ -49,9 +49,25 @@ function sortingByDatesAsc(a, b) {
   return new Date(b.date) - new Date(a.date);
 }
 
+function dateTimeFormat(dateUtc) {
+  const date = new Date(dateUtc);
+  const formatOptions = {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: 'numeric',
+    minute: 'numeric',
+    second: 'numeric',
+    timeZone: 'Europe/Madrid', // Zona horaria de España
+  };
+  const customFormat = new Intl.DateTimeFormat('es-ES', formatOptions);
+  return customFormat.format(date);
+}
+
 module.exports = {
   filterByDates,
   isValidDate,
   sortingByDatesDesc,
   sortingByDatesAsc,
+  dateTimeFormat,
 };

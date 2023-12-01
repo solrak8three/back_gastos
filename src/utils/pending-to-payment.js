@@ -1,4 +1,4 @@
-const { sortingByDatesAsc, sortingByDatesDesc } = require("./dates")
+const { sortingByDatesAsc, sortingByDatesDesc, dateTimeFormat } = require("./dates")
 
 function pendingToPayment(records) {
   const sortingRecords = records.sort(sortingByDatesDesc);
@@ -13,7 +13,16 @@ function pendingToPayment(records) {
 function filterRemoveFixedPayment(records) {
   if (records.length > 0) {
     records = [...records.sort(sortingByDatesAsc)];
-    return records.filter(record => !record.fixed);
+    return records
+      .filter(record => !record.fixed)
+      .map(record => {
+        const { fixed, date, ...newRecord } = record;
+
+        return {
+          ...newRecord,
+          date: dateTimeFormat(date)
+        };
+      });
   };
   return [];
 }
