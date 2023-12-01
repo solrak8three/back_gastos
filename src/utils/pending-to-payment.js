@@ -20,7 +20,7 @@ function filterRemoveFixedPayment(records) {
 
         return {
           ...newRecord,
-          date//: dateTimeFormat(date)
+          date: dateTimeFormat(date)
         };
       });
   };
