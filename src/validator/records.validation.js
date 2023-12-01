@@ -4,8 +4,8 @@ const Joi = require('joi');
 
 // Esquema de validación para los campos opcionales
 const recordSchema = Joi.object({
-  startDate: Joi.string().pattern(/^\d{4}-\d{2}-\d{2}$/).optional(),
-  endDate: Joi.string().pattern(/^\d{4}-\d{2}-\d{2}$/).optional(),
+  startDate: Joi.string().isoDate().optional(),
+  endDate: Joi.string().isoDate().optional(),
   tags: Joi.array().items(Joi.string()).default([]),
   removeFixed: Joi.boolean().default(false),
   onlyFixed: Joi.boolean().default(false),

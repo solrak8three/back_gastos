@@ -43,4 +43,5 @@ function filterByDates(records, startDate, endDate) {
 
 module.exports = {
   filterByDates,
+  isValidDate,
 };
