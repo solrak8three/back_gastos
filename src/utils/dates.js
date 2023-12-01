@@ -41,7 +41,17 @@ function filterByDates(records, startDate, endDate) {
   return records;
 }
 
+function sortingByDatesDesc(a, b) {
+  return new Date(b.date) - new Date(a.date);
+}
+
+function sortingByDatesAsc(a, b) {
+  return new Date(b.date) - new Date(a.date);
+}
+
 module.exports = {
   filterByDates,
   isValidDate,
+  sortingByDatesDesc,
+  sortingByDatesAsc,
 };

@@ -9,20 +9,22 @@ const { validateRecord } = require('../middlewares/validation.middleware');
 router.route('/test')
     .get(expenseController.test);
 
-router.route('/records/save')
+router.route('/save')
     .get(expenseController.saveToJson);
 
-router.route('/records/notion')
+router.route('/notion')
     .post(
         validateRecord,
         expenseController.getRecordsFromNotion,
     );
 
-router.route('/records/json')
+router.route('/json')
     .post(
         validateRecord,
         expenseController.getRecordsFromJson,
     );
 
+router.route('/pending-payment')
+    .get(expenseController.pendingToPayment);
 
 module.exports = router

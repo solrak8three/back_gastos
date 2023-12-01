@@ -2,7 +2,8 @@ const { version } = require("../../config/env");
 const {
   recordsFilteredUseCase,
   saveRecordsToJsonUseCase,
-  recordsFilteredFromJsonUseCase
+  recordsFilteredFromJsonUseCase,
+  pendingPaymentUseCase
 } = require("../use_cases/records.usecases");
 const { calculatePrices } = require("../utils/calculate");
 
@@ -79,9 +80,25 @@ async function getRecordsFromJson(req, res) {
   res.status(200).json(response);
 }
 
+/**
+ * Devuelve los registros que están pendientes de pago. Hay que hacer trasvase de dinero entre cuentas.
+ * @returns {void}
+ */
+async function pendingToPayment(req, res) {
+  await saveRecordsToJsonUseCase();
+  const notionRecords = await pendingPaymentUseCase();
+  const price = calculatePrices(notionRecords);
+  const response = {
+    records: notionRecords,
+    total: price,
+  }
+  res.status(200).json(response);
+}
+
 module.exports = {
   getRecordsFromNotion,
   getRecordsFromJson,
   saveToJson,
+  pendingToPayment,
   test,
 };

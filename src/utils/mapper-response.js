@@ -13,9 +13,10 @@ function mapperRespone(data) {
 function sanitizeProperties(prop) {
   return {
     date: sanitizeDate(prop['Date']),
-    info: sanitizeInfo(prop['info']),
+    info: sanitizeInfo(prop['Info']),
     price: sanitizePrice(prop['Price']),
     tag: sanitizeTag(prop['Tag']),
+    stateToPayment: sanitizeStateToPayment(prop['StateToPayment']),
     fixed: sanitizeFixed(prop['Tag']),
   }
 }
@@ -49,6 +50,11 @@ function sanitizeTag(propTag) {
     : 'otros';
 }
 
+function sanitizeStateToPayment(propStateToPayment) {
+  return (!!propStateToPayment?.status?.name &&
+    propStateToPayment?.status?.name === 'PAID');
+}
+
 
 function sanitizeFixed(tag) {
   if (!!tag?.select?.name) {
@@ -59,18 +65,18 @@ function sanitizeFixed(tag) {
 }
 
 function checkProperties(properties) {
-  return propDdate(properties) &&
+  return propDate(properties) &&
     propInfo(properties) &&
     propPrice(properties) &&
     propTag(properties);
 }
 
-function propDdate(properties) {
+function propDate(properties) {
   return !!properties['Date'].date;
 }
 
 function propInfo(properties) {
-  return !!properties['info'].rich_text[0].plain_text;
+  return !!properties['Info'].rich_text[0].plain_text;
 }
 
 function propPrice(properties) {

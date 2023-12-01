@@ -1,10 +1,10 @@
 require('dotenv').config()
-const environment = 'prod';// process.env.NODE_ENV || 'dev';
+const environment = process.env.NODE_ENV || 'dev';
 
 const baseConfig = {
   port: 3000,
   NOTION_TOKEN: process.env.NOTION_TOKEN,
-  version: '1.1.0',
+  version: '1.2.0',
 };
 
 let environmentConfig = {};
