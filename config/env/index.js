@@ -1,5 +1,5 @@
 require('dotenv').config()
-const environment = 'prod'; // process.env.NODE_ENV || 'dev';
+const environment = process.env.NODE_ENV || 'dev';
 
 const baseConfig = {
   port: 3000,
