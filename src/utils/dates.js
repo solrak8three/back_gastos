@@ -51,17 +51,13 @@ function sortingByDatesAsc(a, b) {
 
 function dateTimeFormat(dateUtc) {
   const date = new Date(dateUtc);
-  const formatOptions = {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: 'numeric',
-    minute: 'numeric',
-    second: 'numeric',
-    timeZone: 'Europe/Madrid', // Zona horaria de España
-  };
-  const customFormat = new Intl.DateTimeFormat('es-ES', formatOptions);
-  return customFormat.format(date);
+  const day = date.getDate();
+  const month = date.getMonth() + 1; // Months in JavaScript are zero-indexed
+  const year = date.getFullYear();
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const seconds = date.getSeconds();
+  return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')} ${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 }
 
 module.exports = {
