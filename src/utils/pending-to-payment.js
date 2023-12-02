@@ -11,20 +11,20 @@ function pendingToPayment(records) {
 }
 
 function filterRemoveFixedPayment(records) {
-  if (records.length > 0) {
-    records = [...records.sort(sortingByDatesAsc)];
-    return records
-      .filter(record => !record.fixed)
-      .map(record => {
-        const { fixed, date, ...newRecord } = record;
+  if (records.length === 0) return records;
 
-        return {
-          ...newRecord,
-          date: dateTimeFormat(date)
-        };
-      });
-  };
-  return [];
+  records = [...records.sort(sortingByDatesAsc)];
+
+  return records
+    .filter(record => !record.fixed)
+    .map(record => {
+      const { fixed, stateToPayment, date, ...newRecord } = record;
+
+      return {
+        ...newRecord,
+        date: dateTimeFormat(date)
+      };
+    });
 }
 
 module.exports = {
