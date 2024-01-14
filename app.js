@@ -11,7 +11,7 @@ app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.use('/api/expense', expenseRouter);
+app.use('/api/notion/expense', expenseRouter);
 
 let server = app.listen(config.port, () => {
     console.log(`Escuchando en el puerto ${config.port}`);
